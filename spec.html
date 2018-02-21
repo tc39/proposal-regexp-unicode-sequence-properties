@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<pre class="metadata">
+title: Unicode property escapes in regular expressions
+status: proposal
+stage: 0
+location: https://tc39.github.io/proposal-regexp-unicode-property-escapes/
+copyright: false
+contributors: Mathias Bynens
+</pre>
+<script src="ecmarkup.js" defer></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<style>
+  ins.block {
+    font-weight: bold;
+    font-style: italic;
+  }
+  hr {
+    height: 0.25em;
+    background: #ccc;
+    border: 0;
+    margin: 2em 0;
+  }
+  .unicode-property-table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 80%;
+  }
+  .unicode-property-table ul {
+    padding-left: 0;
+    list-style: none;
+  }
+</style>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">21.2.1.1 Static Semantics: Early Errors</a> is changed as follows:</ins></p>
+
+<emu-grammar>UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue</emu-grammar>
+<ul>
+  <li>
+    It is a Syntax Error if the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is not identical to a List of Unicode code points that is a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <emu-xref href="#table-unicode-general-category-values"></emu-xref>, nor a binary property or binary property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-binary-unicode-properties"></emu-xref><ins>, nor a sequence property listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref></ins>.
+  </li>
+</ul>
+
+<!-- TODO -->
