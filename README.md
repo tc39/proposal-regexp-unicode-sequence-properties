@@ -64,13 +64,13 @@ Unicode property escapes for unsupported Unicode properties throw an early `Synt
 Currently, each property escape expand to a list of code points. As such, their meaning is clear and unambiguous, even within a character class. For example, the following regular expression matches either a Letter, a Number, or an underscore:
 
 ```js
-const re = /[\p{Letter}\p{Number}_]u;
+const re = /[\p{Letter}\p{Number}_]/u;
 ```
 
 For the new properties introduced by this proposal, the expected behavior within character classes is unclear. A character class, when matched, always produces only a single character. Allowing sequence properties within character classes would change that, for no good reason.
 
 ```js
-const re = /[\p{Emoji_Flag_Sequence}_a-z]u;
+const re = /[\p{Emoji_Flag_Sequence}_a-z]/u;
 // 🤔 What should this do?
 
 // If the goal is to match either `\p{Emoji_Flag_Sequence}` or `_` or
