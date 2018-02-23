@@ -8,7 +8,7 @@ This proposal is at stage 0 of [the TC39 process](https://tc39.github.io/process
 
 The Unicode Standard assigns various properties and property values to every symbol. For example, to get the set of symbols that are used exclusively in the Greek script, search the Unicode database for symbols whose `Script` property is set to `Greek`.
 
-[Unicode property escapes](https://github.com/tc39/proposal-regexp-unicode-sequence-properties) enable JavaScript developers to access these Unicode character properties natively in ECMAScript regular expressions.
+[Unicode property escapes](https://github.com/tc39/proposal-regexp-unicode-property-escapes) enable JavaScript developers to access these Unicode character properties natively in ECMAScript regular expressions.
 
 ```js
 const regexGreekSymbol = /\p{Script=Greek}/u;
