@@ -37,8 +37,75 @@ contributors: Mathias Bynens
 <emu-grammar>UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue</emu-grammar>
 <ul>
   <li>
-    It is a Syntax Error if the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is not identical to a List of Unicode code points that is a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <emu-xref href="#table-unicode-general-category-values"></emu-xref>, nor a binary property or binary property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-binary-unicode-properties"></emu-xref><ins>, nor a sequence property listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref></ins>.
+    It is a Syntax Error if the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is not identical to a List of Unicode code points that is a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, nor a binary property or binary property alias listed in the &ldquo;Property name and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a><ins>, nor a sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref></ins>.
+  </li>
+  <li>
+    <ins>It is a Syntax Error if |LoneUnicodePropertyNameOrValue| occurs within a |CharacterClass| production and the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is identical to a List of Unicode code points that is a Unicode sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref>.</ins>
+  </li>
+  <li>
+    <ins>It is a Syntax Error if |LoneUnicodePropertyNameOrValue| occurs within a <emu-grammar>CharacterClassEscape :: `P{` UnicodePropertyValueExpression `}`</emu-grammar> production and the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is identical to a List of Unicode code points that is a Unicode sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref>.</ins>
   </li>
 </ul>
 
-<!-- TODO -->
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-unicodematchproperty-p">21.2.2.8.3 Runtime Semantics: UnicodeMatchProperty</a> is changed as follows:</ins></p>
+
+<p>Implementations must support the Unicode property names and aliases listed in <a href="https://tc39.github.io/ecma262/#table-nonbinary-unicode-properties">Table 51</a><del> and</del><ins>,</ins> <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a><ins>, and <emu-xref href="#table-unicode-sequence-properties"></emu-xref></ins>. To ensure interoperability, implementations must not support any other property names or aliases.</p>
+
+<emu-import href="table-unicode-sequence-properties.html"></emu-import>
+
+<hr>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-notation">21.2.2.1 Notation</a> is changed as follows:</ins></p>
+
+<p>Furthermore, the descriptions below use the following internal data structures:</p>
+<ul>
+  <li>
+    A <em>CharSet</em> is a mathematical set of characters, either code units or code points depending up the state of the _Unicode_ flag. &ldquo;All characters&rdquo; means either all code unit values or all code point values also depending upon the state of _Unicode_.
+  </li>
+  <li>
+    <ins>A <em>SequenceSet</em> is a mathematical set of sequences of code points.</ins>
+  </li>
+  <li>
+    A <em>State</em> is an ordered pair (_endIndex_, _captures_) where _endIndex_ is an integer and _captures_ is a List of _NcapturingParens_ values. States are used to represent partial match states in the regular expression matching algorithms. The _endIndex_ is one plus the index of the last input character matched so far by the pattern, while _captures_ holds the results of capturing parentheses. The _n_<sup>th</sup> element of _captures_ is either a List that represents the value obtained by the _n_<sup>th</sup> set of capturing parentheses or *undefined* if the _n_<sup>th</sup> set of capturing parentheses hasn't been reached yet. Due to backtracking, many States may be in use at any time during the matching process.
+  </li>
+  <li>
+    A <em>MatchResult</em> is either a State or the special token ~failure~ that indicates that the match failed.
+  </li>
+  <li>
+    A <em>Continuation</em> procedure is an internal closure (i.e. an internal procedure with some arguments already bound to values) that takes one State argument and returns a MatchResult result. If an internal closure references variables which are bound in the function that creates the closure, the closure uses the values that these variables had at the time the closure was created. The Continuation attempts to match the remaining portion (specified by the closure's already-bound arguments) of the pattern against _Input_, starting at the intermediate state given by its State argument. If the match succeeds, the Continuation returns the final State that it reached; if the match fails, the Continuation returns ~failure~.
+  </li>
+  <li>
+    A <em>Matcher</em> procedure is an internal closure that takes two arguments &mdash; a State and a Continuation &mdash; and returns a MatchResult result. A Matcher attempts to match a middle subpattern (specified by the closure's already-bound arguments) of the pattern against _Input_, starting at the intermediate state given by its State argument. The Continuation argument should be a closure that matches the rest of the pattern. After matching the subpattern of a pattern to obtain a new State, the Matcher then calls Continuation on that new State to test if the rest of the pattern can match as well. If it can, the Matcher returns the State returned by Continuation; if not, the Matcher may try different choices at its choice points, repeatedly calling Continuation until it either succeeds or all possibilities have been exhausted.
+  </li>
+  <li>
+    An <em>AssertionTester</em> procedure is an internal closure that takes a State argument and returns a Boolean result. The assertion tester tests a specific condition (specified by the closure's already-bound arguments) against the current place in _Input_ and returns *true* if the condition matched or *false* if not.
+  </li>
+</ul>
+
+<hr>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-characterclassescape">21.2.2.12 CharacterClassEscape</a> is changed as follows:</ins></p>
+
+<p>The production <emu-grammar>CharacterClassEscape :: `p{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates <del>by returning the CharSet containing all Unicode code points included in the CharSet returned by |UnicodePropertyValueExpression|</del> <ins>as follows:</ins></p>
+<p><ins>The production <emu-grammar>CharacterClassEscape :: `p{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates as follows:</ins></p>
+<emu-alg>
+  1. <ins>Let _v_ be the return value of |UnicodePropertyValueExpression|.</ins>
+  1. <ins>If _v_ is a CharSet, then</ins>
+    1. <ins>Return the CharSet containing all Unicode code points included in _v_.</ins>
+  1. <ins>Assert: _v_ is a SequenceSet.</ins>
+  1. <ins>Return the Disjunction containing an Alternative for each of the Unicode code point sequences in _v_.</ins><!-- TODO: Improve this. -->
+</emu-alg>
+
+<p>The production <emu-grammar>CharacterClassEscape :: `P{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates by returning the CharSet containing all Unicode code points not included in the CharSet returned by |UnicodePropertyValueExpression|.</p>
+
+<p>The production <emu-grammar>UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue</emu-grammar> evaluates as follows:</p>
+<emu-alg>
+  1. Let _s_ be SourceText of |LoneUnicodePropertyNameOrValue|.
+  1. If ! UnicodeMatchPropertyValue(`"General_Category"`, _s_) is identical to a List of Unicode code points that is the name of a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, then
+    1. Return the CharSet containing all Unicode code points whose character database definition includes the property &ldquo;General_Category&rdquo; with value _s_.
+  1. <ins>If _s_ is identical to a List of Unicode code points that is the name of a Unicode sequence property or sequence property alias listed in the &ldquo;Property value and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref>, then</ins>
+    1. <ins>Return the SequenceSet containing each Unicode code point sequence included in the Unicode property _s_.</ins>
+  1. Let _p_ be ! UnicodeMatchProperty(_s_).
+  1. Assert: _p_ is a binary Unicode property or binary property alias listed in the &ldquo;Property name and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a>.
+  1. Return the CharSet containing all Unicode code points whose character database definition includes the property _p_ with value &ldquo;True&rdquo;.
+</emu-alg>
