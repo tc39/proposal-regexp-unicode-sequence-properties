@@ -49,7 +49,7 @@ Re-using the existing Unicode property escapes syntax for this new functionality
 
 <pre>\p{<b><i>UnicodeSequencePropertyName</i></b>}</pre>
 
-As before, `\P{…}` is the negated form of `\p{…}`.
+The negated `\P{…}` form is not supported for sequence properties as it’s not very useful.
 
 Given that `UnicodeSequencePropertyName` expands to a list of sequences of Unicode code points, the proposal includes a static restriction that bans such properties within character classes.
 
