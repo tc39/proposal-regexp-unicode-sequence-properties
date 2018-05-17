@@ -32,18 +32,127 @@ contributors: Mathias Bynens
   }
 </style>
 
+<p><ins class="block">The syntax listed in <a href="https://tc39.github.io/ecma262/#sec-patterns">21.2.1 Patterns</a> is modified as follows.</ins></p>
+
+<emu-grammar type="definition">
+  LeadSurrogate ::
+    Hex4Digits [> but only if the SV of |Hex4Digits| is in the inclusive range 0xD800 to 0xDBFF]
+
+  TrailSurrogate ::
+    Hex4Digits [> but only if the SV of |Hex4Digits| is in the inclusive range 0xDC00 to 0xDFFF]
+
+  NonSurrogate ::
+    Hex4Digits [> but only if the SV of |Hex4Digits| is not in the inclusive range 0xD800 to 0xDFFF]
+
+  IdentityEscape[U] ::
+    [+U] SyntaxCharacter
+    [+U] `/`
+    [~U] SourceCharacter but not UnicodeIDContinue
+
+  DecimalEscape ::
+    NonZeroDigit DecimalDigits? [lookahead &lt;! DecimalDigit]
+
+  CharacterClassEscape[U, InCharacterClass] ::
+    `d`
+    `D`
+    `s`
+    `S`
+    `w`
+    `W`
+    <ins class="block">[+InCharacterClass, +U] `p{` UnicodePropertyValueExpression `}`
+    [~InCharacterClass, +U] `p{` UnicodePropertyValueOrSequenceExpression `}`</ins>
+    [+U] `P{` UnicodePropertyValueExpression `}`
+
+  UnicodePropertyValueExpression ::
+    UnicodePropertyName `=` UnicodePropertyValue
+    LoneUnicodePropertyNameOrValue
+
+  <ins class="block">UnicodePropertyValueOrSequenceExpression ::
+    UnicodePropertyName `=` UnicodePropertyValue
+    LoneUnicodePropertyNameOrValue</ins>
+
+  UnicodePropertyName ::
+    UnicodePropertyNameCharacters
+
+  UnicodePropertyNameCharacters ::
+    UnicodePropertyNameCharacter UnicodePropertyNameCharacters?
+
+  UnicodePropertyValue ::
+    UnicodePropertyValueCharacters
+
+  LoneUnicodePropertyNameOrValue ::
+    UnicodePropertyValueCharacters
+
+  UnicodePropertyValueCharacters ::
+    UnicodePropertyValueCharacter UnicodePropertyValueCharacters?
+
+  UnicodePropertyValueCharacter ::
+    UnicodePropertyNameCharacter
+    `0`
+    `1`
+    `2`
+    `3`
+    `4`
+    `5`
+    `6`
+    `7`
+    `8`
+    `9`
+
+  UnicodePropertyNameCharacter ::
+    ControlLetter
+    `_`
+
+  CharacterClass[U] ::
+    `[` [lookahead &lt;! {`^`}] ClassRanges[?U] `]`
+    `[` `^` ClassRanges[?U] `]`
+
+  ClassRanges[U] ::
+    [empty]
+    NonemptyClassRanges[?U]
+
+  NonemptyClassRanges[U] ::
+    ClassAtom[?U]
+    ClassAtom[?U] NonemptyClassRangesNoDash[?U]
+    ClassAtom[?U] `-` ClassAtom[?U] ClassRanges[?U]
+
+  NonemptyClassRangesNoDash[U] ::
+    ClassAtom[?U]
+    ClassAtomNoDash[?U] NonemptyClassRangesNoDash[?U]
+    ClassAtomNoDash[?U] `-` ClassAtom[?U] ClassRanges[?U]
+
+  ClassAtom[U] ::
+    `-`
+    ClassAtomNoDash[?U]
+
+  ClassAtomNoDash[U] ::
+    SourceCharacter but not one of `\` or `]` or `-`
+    `\` ClassEscape[?U]
+
+  ClassEscape[U] ::
+    `b`
+    [+U] `-`
+    <ins class="block">CharacterClassEscape[?U, InCharacterClass]</ins>
+    CharacterEscape[?U]
+</emu-grammar>
+
 <p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">21.2.1.1 Static Semantics: Early Errors</a> is changed as follows:</ins></p>
 
-<emu-grammar>UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue</emu-grammar>
+<emu-grammar>UnicodePropertyValueExpression :: UnicodePropertyName `=` UnicodePropertyValue</emu-grammar>
+<ins class="block"><emu-grammar>UnicodePropertyValueOrSequenceExpression :: UnicodePropertyName `=` UnicodePropertyValue</emu-grammar></ins>
+<ul>
+  <li>
+    It is a Syntax Error if the List of Unicode code points that is SourceText of |UnicodePropertyName| is not identical to a List of Unicode code points that is a Unicode property name or property alias listed in the &ldquo;Property name and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-nonbinary-unicode-properties">Table 51</a>.
+  </li>
+  <li>
+    It is a Syntax Error if the List of Unicode code points that is SourceText of |UnicodePropertyValue| is not identical to a List of Unicode code points that is a value or value alias for the Unicode property or property alias given by SourceText of |UnicodePropertyName| listed in the &ldquo;Property value and aliases&rdquo; column of the corresponding tables <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a> or <a href="https://tc39.github.io/ecma262/#table-unicode-script-values">Table 54</a>.
+  </li>
+</ul>
+
+<emu-grammar>UnicodePropertyValueOrSequenceExpression :: LoneUnicodePropertyNameOrValue</emu-grammar>
 <ul>
   <li>
     It is a Syntax Error if the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is not identical to a List of Unicode code points that is a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, nor a binary property or binary property alias listed in the &ldquo;Property name and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a><ins>, nor a sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref></ins>.
-  </li>
-  <li>
-    <ins>It is a Syntax Error if |LoneUnicodePropertyNameOrValue| occurs within a |CharacterClass| production and the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is identical to a List of Unicode code points that is a Unicode sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref>.</ins>
-  </li>
-  <li>
-    <ins>It is a Syntax Error if |LoneUnicodePropertyNameOrValue| occurs within a <emu-grammar>CharacterClassEscape :: `P{` UnicodePropertyValueExpression `}`</emu-grammar> production and the List of Unicode code points that is SourceText of |LoneUnicodePropertyNameOrValue| is identical to a List of Unicode code points that is a Unicode sequence property or sequence property alias listed in the &ldquo;Property name and aliases&rdquo; column of <emu-xref href="#table-unicode-sequence-properties"></emu-xref>.</ins>
   </li>
 </ul>
 
@@ -86,10 +195,9 @@ contributors: Mathias Bynens
 
 <p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-characterclassescape">21.2.2.12 CharacterClassEscape</a> is changed as follows:</ins></p>
 
-<p>The production <emu-grammar>CharacterClassEscape :: `p{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates <del>by returning the CharSet containing all Unicode code points included in the CharSet returned by |UnicodePropertyValueExpression|</del> <ins>as follows:</ins></p>
-<p><ins>The production <emu-grammar>CharacterClassEscape :: `p{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates as follows:</ins></p>
+<p><ins class="block">The production <emu-grammar>CharacterClassEscape :: `p{` UnicodePropertyValueOrSequenceExpression `}`</emu-grammar> evaluates as follows:</ins></p>
 <emu-alg>
-  1. <ins>Let _v_ be the return value of |UnicodePropertyValueExpression|.</ins>
+  1. <ins>Let _v_ be the return value of |UnicodePropertyValueOrSequenceExpression|.</ins>
   1. <ins>If _v_ is a CharSet, then</ins>
     1. <ins>Return the CharSet containing all Unicode code points included in _v_.</ins>
   1. <ins>Assert: _v_ is a SequenceSet.</ins>
@@ -98,7 +206,7 @@ contributors: Mathias Bynens
 
 <p>The production <emu-grammar>CharacterClassEscape :: `P{` UnicodePropertyValueExpression `}`</emu-grammar> evaluates by returning the CharSet containing all Unicode code points not included in the CharSet returned by |UnicodePropertyValueExpression|.</p>
 
-<p>The production <emu-grammar>UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue</emu-grammar> evaluates as follows:</p>
+<p>The production <emu-grammar>UnicodePropertyValueExpression :: UnicodePropertyValueOrSequenceExpression</emu-grammar> evaluates as follows:</p>
 <emu-alg>
   1. Let _s_ be SourceText of |LoneUnicodePropertyNameOrValue|.
   1. If ! UnicodeMatchPropertyValue(`"General_Category"`, _s_) is identical to a List of Unicode code points that is the name of a Unicode general category or general category alias listed in the &ldquo;Property value and aliases&rdquo; column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, then
