@@ -142,7 +142,7 @@ const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_\p{Emoji}]|\p{Emoji_Flag_Sequen
 
 ## TC39 meeting notes
 
-- TODO
+- [May 2018](https://tc39.github.io/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
 
 ## Specification
 
