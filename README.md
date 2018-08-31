@@ -92,10 +92,16 @@ The mental model is: `\p{…}` refers to a Unicode property. This proposal doesn
 
 ### Matching emoji sequences
 
-Per [UTR51 ED-26](https://unicode.org/reports/tr51/proposed.html#def_rgi_sequences), the term “emoji sequences” refers to [emoji flag sequences](https://unicode.org/Public/emoji/latest/emoji-sequences.txt), [emoji tag sequences](https://unicode.org/Public/emoji/latest/emoji-sequences.txt), and [emoji ZWJ sequences](https://unicode.org/Public/emoji/latest/emoji-zwj-sequences.txt). With this proposal, emoji sequences can be represented as a RegExp pattern in JavaScript:
+Per [UTR51 ED-26](https://unicode.org/reports/tr51/#def_rgi_sequences), the term “RGI emoji sequences” refers to [emoji flag sequences](https://unicode.org/Public/emoji/latest/emoji-sequences.txt), [emoji tag sequences](https://unicode.org/Public/emoji/latest/emoji-sequences.txt), and [emoji ZWJ sequences](https://unicode.org/Public/emoji/latest/emoji-zwj-sequences.txt). With this proposal, RGI emoji sequences can be represented as a RegExp pattern in JavaScript:
 
 ```js
-const reEmojiSequence = /\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}/u;
+const reRgiEmojiSequence = /\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}/u;
+```
+
+“RGI” means “recommended for general interchange emoji”. The abovementioned _RGI emoji sequences_ form a strict subset of the full set of _emoji sequences_, which include [emoji keycap sequences](https://unicode.org/reports/tr51/#def_std_emoji_keycap_sequence_set) and [emoji modifier sequences](https://unicode.org/reports/tr51/#def_emoji_modifier_sequence) as well:
+
+```js
+const reEmojiSequence = /\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}|\p{Emoji_Keycap_Sequence}|\p{Emoji_Modifier_Sequence}/u;
 ```
 
 ### Matching all emoji (including emoji sequences)
@@ -103,17 +109,17 @@ const reEmojiSequence = /\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji
 This proposal makes it possible to match all emoji, regardless of whether they consist of sequences or not:
 
 ```js
-const reEmoji = /\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}/gu;
+const reEmoji = /\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}|\p{Emoji_Keycap_Sequence}|\p{Emoji_Modifier_Sequence}|\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Modifier_Base}/gu;
 ```
 
 This regular expression matches, from left to right:
 
-1. emoji with optional modifiers (`\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?` per [ED-13](https://unicode.org/reports/tr51/proposed.html#def_emoji_modifier_sequence));
-2. any remaining symbols that render as emoji rather than text by default (`\p{Emoji_Presentation}` per [ED-6](https://unicode.org/reports/tr51/proposed.html#def_emoji_presentation));
-3. symbols that render as text by default, but are forced to render as emoji using U+FE0F VARIATION SELECTOR-16 (`\p{Emoji}\uFE0F` per [ED-9a](https://unicode.org/reports/tr51/proposed.html#def_emoji_presentation_sequence));
-4. emoji sequences (`\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}`, [as discussed above](#matching-emoji-sequences)).
+1. emoji sequences (`\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}|\p{Emoji_Keycap_Sequence}|\p{Emoji_Modifier_Sequence}`, [as discussed above](#matching-emoji-sequences)).
+2. any symbols that render as emoji rather than text by default (`\p{Emoji_Presentation}` per [ED-6](https://unicode.org/reports/tr51/#def_emoji_presentation));
+3. symbols that render as text by default, but are forced to render as emoji using U+FE0F VARIATION SELECTOR-16 (`\p{Emoji}\uFE0F` per [ED-9a](https://unicode.org/reports/tr51/#def_emoji_presentation_sequence));
+4. emoji modifier base symbols (`\p{Emoji_Modifier_Base}`) that are not followed by emoji modifiers (`\p{Emoji_Modifier}`), and that are thus not part of a sequence and thus not matched by the earlier `\p{Emoji_Modifier_Sequence}` (`\p{Emoji_Modifier_Base}(?!\p{Emoji_Modifier})`, which can be simplified to just `\p{Emoji_Modifier_Base}` in this case since it’s preceded by `\p{Emoji_Modifier_Sequence}`)
 
-[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 KB in size. With property escapes, but without sequence property support, the size is still ~4.5 KB. The abovementioned regular expression with sequence properties takes up 155 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 KB in size. With property escapes, but without sequence property support, the size is still ~4.5 KB. The abovementioned regular expression with sequence properties takes up 190 bytes.
 
 ### Matching hashtags
 
@@ -132,13 +138,13 @@ However, the _Extended Hashtag Identifier Syntax (UAX31-R8)_ currently cannot tr
 const reHashtag = /[#\uFF03][\p{XID_Continue}_\p{Emoji}]+/u;
 ```
 
-The above pattern matches *some* emoji, but not those consisting of sequences. With the proposed feature however, fully implementing the UAX31-R8 syntax becomes feasible:
+The above pattern matches *some* emoji, but not those consisting of sequences. It would also match emoji that render as text by default. With the proposed feature however, fully implementing the UAX31-R8 syntax becomes feasible:
 
 ```js
-const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_\p{Emoji}]|\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence})+/u;
+const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_]|\p{Emoji_Flag_Sequence}|\p{Emoji_Tag_Sequence}|\p{Emoji_ZWJ_Sequence}|\p{Emoji_Keycap_Sequence}|\p{Emoji_Modifier_Sequence}|\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Modifier_Base})+/u;
 ```
 
-[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 KB in size. With property escapes, but without sequence property support, the size is still ~3 KB. The abovementioned regular expression with sequence properties takes up 115 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 KB in size. With property escapes, but without sequence property support, the size is still ~3 KB. The abovementioned regular expression with sequence properties takes up 223 bytes.
 
 ## TC39 meeting notes
 
