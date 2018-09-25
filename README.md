@@ -41,6 +41,7 @@ We propose to support the following Unicode sequence properties defined in [Unic
 - `Emoji_Modifier_Sequence`
 - `Emoji_Tag_Sequence`
 - `Emoji_ZWJ_Sequence`
+- [`Basic_Emoji`](https://unicode.org/draft/reports/tr51/tr51.html)
 
 ## High-level API
 
