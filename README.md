@@ -146,6 +146,12 @@ const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_]|\p{Emoji_Flag_Sequence}|\p{Em
 
 [An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 KB in size. With property escapes, but without sequence property support, the size is still ~3 KB. The abovementioned regular expression with sequence properties takes up 223 bytes.
 
+## Related UTC proposals
+
+- [L2/18-337 Broaden the scope of what Unicode calls “properties”](https://unicode.org/L2/L2018/18337-broaden-properties.pdf)
+- [L2/19-056 Comments on L2/18-337](https://unicode.org/L2/L2019/19056-prop-cmts.pdf)
+- [Response to L2/19-056](https://docs.google.com/document/d/1YW_4PTRUYz0mRvWmXwtUSd6jaG-lDQnfvs5gpKuix5E/edit)
+
 ## TC39 meeting notes
 
 - [May 2018](https://tc39.github.io/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
