@@ -36,12 +36,12 @@ regexEmojiKeycap.test('4️⃣');
 
 We propose to support the following Unicode sequence properties defined in [Unicode TR51](https://unicode.org/reports/tr51/):
 
-- `Emoji_Flag_Sequence`
-- `Emoji_Keycap_Sequence`
-- `Emoji_Modifier_Sequence`
-- `Emoji_Tag_Sequence`
-- `Emoji_ZWJ_Sequence`
-- [`Basic_Emoji`](https://unicode.org/draft/reports/tr51/tr51.html)
+- [`Emoji_Flag_Sequence`](https://unicode.org/reports/tr51/#def_std_emoji_flag_sequence_set)
+- [`Emoji_Keycap_Sequence`](https://unicode.org/reports/tr51/#def_std_emoji_keycap_sequence_set)
+- [`Emoji_Modifier_Sequence`](https://unicode.org/reports/tr51/#def_std_emoji_modifier_sequence_set)
+- [`Emoji_Tag_Sequence`](https://unicode.org/reports/tr51/#def_std_emoji_tag_sequence_set)
+- [`Emoji_ZWJ_Sequence`](https://unicode.org/reports/tr51/#def_emoji_ZWJ_sequences)
+- [`Basic_Emoji`](https://unicode.org/reports/tr51/#def_basic_emoji_set)
 
 ## High-level API
 
