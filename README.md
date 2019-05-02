@@ -43,6 +43,8 @@ We propose to support the following Unicode sequence properties defined in [Unic
 - [`Emoji_ZWJ_Sequence`](https://unicode.org/reports/tr51/#def_emoji_ZWJ_sequences)
 - [`Basic_Emoji`](https://unicode.org/reports/tr51/#def_basic_emoji_set)
 
+Each of these sequence properties expands to a finite, well-defined set of strings.
+
 ## High-level API
 
 Re-using the existing Unicode property escapes syntax for this new functionality seems appropriate:
