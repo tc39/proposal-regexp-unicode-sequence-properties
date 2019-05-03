@@ -151,8 +151,9 @@ const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_]|\p{Emoji_Flag_Sequence}|\p{Em
 ## Related UTC proposals
 
 - [L2/18-337 Broaden the scope of what Unicode calls “properties”](https://unicode.org/L2/L2018/18337-broaden-properties.pdf)
-- [L2/19-056 Comments on L2/18-337](https://unicode.org/L2/L2019/19056-prop-cmts.pdf)
-- [Response to L2/19-056](https://docs.google.com/document/d/1YW_4PTRUYz0mRvWmXwtUSd6jaG-lDQnfvs5gpKuix5E/edit)
+    - [L2/19-056 Comments on L2/18-337](https://unicode.org/L2/L2019/19056-prop-cmts.pdf)
+        - [Response to L2/19-056](https://docs.google.com/document/d/1YW_4PTRUYz0mRvWmXwtUSd6jaG-lDQnfvs5gpKuix5E/edit)
+- [L2/19-168 Supporting string properties in regular expressions](https://unicode.org/L2/L2019/19168-regex-string-prop.pdf)
 
 ## TC39 meeting notes
 
