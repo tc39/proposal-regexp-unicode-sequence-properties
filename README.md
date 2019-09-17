@@ -160,6 +160,8 @@ const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_]|\p{Emoji_Flag_Sequence}|\p{Em
 
 - [May 2018](https://tc39.github.io/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
 - [September 2018](https://tc39.github.io/tc39-notes/2018-09_sept-26.html#sequence-properties-in-unicode-property-escapes-for-stage-2)
+- [January 2019](https://github.com/tc39/tc39-notes/blob/def2ee0c04bc91612576237314a4f3b1fe2edaef/meetings/2019-01/jan-31.md#update-on-sequence-properties-in-unicode-property-escapes)
+- October 2019
 
 ## Specification
 
