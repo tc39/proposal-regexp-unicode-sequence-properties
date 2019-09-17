@@ -2,7 +2,7 @@
 
 ## Status
 
-This proposal is at stage 2 of [the TC39 process](https://tc39.github.io/process-document/).
+This proposal is at stage 2 of [the TC39 process](https://tc39.es/process-document/).
 
 ## Motivation
 
@@ -16,7 +16,7 @@ regexGreekSymbol.test('π');
 // → true
 ```
 
-The Unicode properties and values that are [currently](https://tc39.github.io/ecma262/#table-nonbinary-unicode-properties) [supported](https://tc39.github.io/ecma262/#table-binary-unicode-properties) in Unicode property escapes have something in common: they all expand to **a list of code points**. Such escapes can be transpiled as a character class containing the list of code points they match individually. For example, `\p{ASCII_Hex_Digit}` is equivalent to `[0-9A-Fa-f]`: it only ever matches a single Unicode symbol at a time.
+The Unicode properties and values that are [currently](https://tc39.es/ecma262/#table-nonbinary-unicode-properties) [supported](https://tc39.es/ecma262/#table-binary-unicode-properties) in Unicode property escapes have something in common: they all expand to **a list of code points**. Such escapes can be transpiled as a character class containing the list of code points they match individually. For example, `\p{ASCII_Hex_Digit}` is equivalent to `[0-9A-Fa-f]`: it only ever matches a single Unicode symbol at a time.
 
 However, the Unicode Standard defines properties that instead expand to **a list of _sequences_ of code points**. In regular expressions, such properties translate to a set of alternatives. To illustrate this, imagine a Unicode property that expands to the Unicode code point sequences `'a'`, `'mn'`, and `'xyz'`. This property translates to the following regular expression pattern: `a|mn|xyz`. Note how unlike existing Unicode property escapes, this pattern can match multiple Unicode symbols.
 
@@ -158,15 +158,15 @@ const reHashtag = /[#\uFF03](?:[\p{XID_Continue}_]|\p{Emoji_Flag_Sequence}|\p{Em
 
 ## TC39 meeting notes
 
-- [May 2018](https://tc39.github.io/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
-- [September 2018](https://tc39.github.io/tc39-notes/2018-09_sept-26.html#sequence-properties-in-unicode-property-escapes-for-stage-2)
+- [May 2018](https://tc39.es/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
+- [September 2018](https://tc39.es/tc39-notes/2018-09_sept-26.html#sequence-properties-in-unicode-property-escapes-for-stage-2)
 - [January 2019](https://github.com/tc39/tc39-notes/blob/def2ee0c04bc91612576237314a4f3b1fe2edaef/meetings/2019-01/jan-31.md#update-on-sequence-properties-in-unicode-property-escapes)
 - October 2019
 
 ## Specification
 
 * [Ecmarkup source](https://github.com/tc39/proposal-regexp-unicode-sequence-properties/blob/master/spec.html)
-* [HTML version](https://tc39.github.io/proposal-regexp-unicode-sequence-properties/)
+* [HTML version](https://tc39.es/proposal-regexp-unicode-sequence-properties/)
 
 ## Implementations
 
