@@ -87,7 +87,7 @@ To avoid confusion, the proposal throws a `SyntaxError` exception when sequence 
 
 Introducing new syntax comes at a cost for JavaScript developers. In this case, we assert that the cost of adding new syntax for this functionality outweighs the benefits.
 
-New syntax would have the benefit of making the distinction between binary and regular properties vs. sequence properties more clearly. However, making the distinction between sequence properties and other properties in `\p{…}` is straightforward, even without syntax: all Unicode sequence properties have `_Sequence` in their name. As such, there is already a clear indication as to what kind of behavior can be expected.
+New syntax would have the benefit of making the distinction between binary and regular properties vs. sequence properties more clearly.
 
 The mental model is: `\p{…}` refers to a Unicode property. This proposal doesn’t change that. It’s reasonable to assume that developers opting in to the use of sequence properties know what to expect.
 
