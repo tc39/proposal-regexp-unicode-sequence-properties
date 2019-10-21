@@ -135,6 +135,7 @@ const reHashtag = /[#\uFE5F\uFF03](?:[\p{XID_Continue}_]|\p{RGI_Emoji})+/u;
         - [Response to L2/19-056](https://docs.google.com/document/d/1YW_4PTRUYz0mRvWmXwtUSd6jaG-lDQnfvs5gpKuix5E/edit)
 - [L2/19-168 Supporting string properties in regular expressions](https://unicode.org/L2/L2019/19168-regex-string-prop.pdf) ([slides with speaker notes](https://docs.google.com/presentation/d/1KtrP7TWIX9XJ_K-3zYyEvpSIKhl5PscG6lgMDyizRAU/edit))
 - [Working Draft #20 of Unicode® Technical Standard #18](https://unicode.org/L2/L2019/19249-wd-uts18-20-draft.pdf)
+- [Presentation by Mark Davis](https://docs.google.com/presentation/d/1wM3L5f3HF8nkCkGY0SR_gT_HvmkDO0VLxcuhjQCJUtc/edit)
 
 ## TC39 meeting notes
 
