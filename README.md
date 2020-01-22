@@ -143,7 +143,9 @@ const reHashtag = /[#\uFE5F\uFF03](?:[\p{XID_Continue}_]|\p{RGI_Emoji})+/u;
 - [May 2018](https://tc39.es/tc39-notes/2018-05_may-22.html#11ia-sequence-properties-in-unicode-property-escapes)
 - [September 2018](https://tc39.es/tc39-notes/2018-09_sept-26.html#sequence-properties-in-unicode-property-escapes-for-stage-2)
 - [January 2019](https://github.com/tc39/tc39-notes/blob/def2ee0c04bc91612576237314a4f3b1fe2edaef/meetings/2019-01/jan-31.md#update-on-sequence-properties-in-unicode-property-escapes)
-- October 2019
+- October 2019:
+    - [discussion 1](https://github.com/tc39/notes/blob/master/meetings/2019-10/october-2.md#update-on-sequence-property-escapes-in-unicode-regular-expressions)
+    - [discussion 2](https://github.com/tc39/notes/blob/master/meetings/2019-10/october-3.md#redux-update-on-sequence-property-escapes-in-unicode-regular-expressions)
 
 ## Specification
 
