@@ -20,7 +20,7 @@ The Unicode properties and values that are [currently](https://tc39.es/ecma262/#
 
 However, the Unicode Standard [defines properties that instead expand to **a list of _sequences_ of code points**](https://unicode.org/reports/tr18/proposed.html#Categories). In regular expressions, such properties translate to a set of alternatives. To illustrate this, imagine a Unicode property that expands to the Unicode code point sequences `'a'`, `'mn'`, and `'xyz'`. This property translates to the following regular expression pattern: `a|mn|xyz`. Note how unlike existing Unicode property escapes, this pattern can match multiple Unicode symbols.
 
-Hand-written regular expressions for these properties suffer from [the same issues that Unicode property escapes solve](https://github.com/tc39/proposal-regexp-unicode-sequence-properties#motivation): they’re hard to write or maintain manually, they tend to be large, and they’re unreadable.
+Hand-written regular expressions for these properties suffer from [the same issues that Unicode property escapes solve](https://github.com/tc39/proposal-regexp-unicode-property-escapes#motivation): they’re hard to write or maintain manually, they tend to be large, and they’re unreadable.
 
 ## Proposed solution
 
