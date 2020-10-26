@@ -34,7 +34,7 @@ re.test('👨🏾‍⚕️'); // '\u{1F468}\u{1F3FE}\u200D\u2695\uFE0F'
 // → true
 ```
 
-We propose to support the following Unicode sequence properties defined in [UTS18](https://unicode.org/reports/tr18/proposed.html#Full_Properties) and [UTS51](https://unicode.org/reports/tr51/):
+We propose to support the following Unicode sequence properties defined in [UTS18](https://unicode.org/reports/tr18/#Full_Properties) and [UTS51](https://unicode.org/reports/tr51/):
 
 - `Basic_Emoji`
 - `RGI_Emoji_Modifier_Sequence`
