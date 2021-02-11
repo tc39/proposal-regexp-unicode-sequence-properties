@@ -4,27 +4,55 @@
 
 This proposal is at stage 2 of [the TC39 process](https://tc39.es/process-document/).
 
+## Terminology
+
+This proposal initially used the term “sequence properties”, but that is a misnomer.
+A sequence of characters is a string, and a string property is one whose *values* (the codomain) are strings,
+just like a binary property is one whose values are binary true/false
+(that is, whether the property applies or does not apply).
+
+Unicode has since formalized this,
+using “property of code points” vs. “property of strings” for the *domain* of a property.
+See https://www.unicode.org/reports/tr18/#domain_of_properties
+
+Also, we mostly use “character” and “code point” interchangeably.
+More formally, “character” refers to assigned code points, but properties have values for all code points.
+(Most properties map all unassigned code points to one default value.)
+
 ## Motivation
 
-The Unicode Standard assigns various properties and property values to every symbol. For example, to get the set of symbols that are used exclusively in the Greek script, search the Unicode database for symbols whose `Script` property is set to `Greek`.
+The Unicode Standard assigns various properties and property values to every character/code point.
+For example, to get the set of characters that are used exclusively in the Greek script,
+search the Unicode database for characters whose `Script` property value is `Greek`.
 
 [Unicode property escapes](https://github.com/tc39/proposal-regexp-unicode-property-escapes) enable JavaScript developers to access these Unicode character properties natively in ECMAScript regular expressions.
 
 ```js
-const regexGreekSymbol = /\p{Script=Greek}/u;
-regexGreekSymbol.test('π');
+const regexGreek = /\p{Script=Greek}/u;
+regexGreek.test('π');
 // → true
 ```
 
-The Unicode properties and values that are [currently](https://tc39.es/ecma262/#table-nonbinary-unicode-properties) [supported](https://tc39.es/ecma262/#table-binary-unicode-properties) in Unicode property escapes have something in common: they all expand to **a list of code points**. Such escapes can be transpiled as a character class containing the list of code points they match individually. For example, `\p{ASCII_Hex_Digit}` is equivalent to `[0-9A-Fa-f]`: it only ever matches a single Unicode symbol at a time.
+The Unicode properties and values that are
+[currently](https://tc39.es/ecma262/#table-nonbinary-unicode-properties)
+[supported](https://tc39.es/ecma262/#table-binary-unicode-properties)
+in Unicode property escapes have something in common: they all expand to **a set of code points**.
+Such escapes can be transpiled as a character class containing the code points they match individually.
+For example, `\p{ASCII_Hex_Digit}` is equivalent to `[0-9A-Fa-f]`:
+It only ever matches a single Unicode character/code point at a time.
 
-However, the Unicode Standard [defines properties that instead expand to **a list of _sequences_ of code points**](https://unicode.org/reports/tr18/proposed.html#Categories). In regular expressions, such properties translate to a set of alternatives. To illustrate this, imagine a Unicode property that expands to the Unicode code point sequences `'a'`, `'mn'`, and `'xyz'`. This property translates to the following regular expression pattern: `a|mn|xyz`. Note how unlike existing Unicode property escapes, this pattern can match multiple Unicode symbols.
+However, the Unicode Standard also defines several properties of strings.
+In regular expressions, such properties translate to a set of alternatives.
+To illustrate this, imagine a Unicode property that applies to the strings `'a'`, `'xy'`, and `'xyz'`.
+This property translates to the following regular expression pattern (using an alternation): `xyz|xy|a`.
+(Longest strings first, so that a prefix like `'xy'` does not hide a longer string like `'xyz'`.)
+Note how unlike existing Unicode property escapes, this pattern can match multi-character strings.
 
 Hand-written regular expressions for these properties suffer from [the same issues that Unicode property escapes solve](https://github.com/tc39/proposal-regexp-unicode-property-escapes#motivation): they’re hard to write or maintain manually, they tend to be large, and they’re unreadable.
 
 ## Proposed solution
 
-We propose the addition of _Unicode sequence properties_ to the existing Unicode property escapes syntax.
+We propose the addition of several _properties of strings_ to the existing Unicode property escapes syntax.
 
 With this feature, the above regular expression could be written as:
 
@@ -34,27 +62,43 @@ re.test('👨🏾‍⚕️'); // '\u{1F468}\u{1F3FE}\u200D\u2695\uFE0F'
 // → true
 ```
 
-We propose to support the following Unicode sequence properties defined in [UTS18](https://unicode.org/reports/tr18/#Full_Properties) and [UTS51](https://unicode.org/reports/tr51/):
+We propose to support the following Unicode sequence properties defined in
+[UTS18](https://www.unicode.org/reports/tr18/#Full_Properties) and
+[UTS51](https://www.unicode.org/reports/tr51/):
 
 - `Basic_Emoji`
+- `Emoji_Keycap_Sequence`
 - `RGI_Emoji_Modifier_Sequence`
+- `RGI_Emoji_Flag_Sequence`
 - `RGI_Emoji_Tag_Sequence`
 - `RGI_Emoji_ZWJ_Sequence`
 - `RGI_Emoji`
 
 Each of these sequence properties expands to a finite, well-defined set of strings.
+(`Basic_Emoji` also applies to many single characters.)
 
-Over time, we can choose to support additional sequence properties, following the upstream Unicode Standard.
+Over time, we can choose to support additional properties of strings, following the upstream Unicode Standard.
 
 ## High-level API
 
 Re-using the existing Unicode property escapes syntax for this new functionality seems appropriate:
 
-<pre>\p{<b><i>UnicodeSequencePropertyName</i></b>}</pre>
+<pre>\p{<b><i>PropertyName</i></b>}</pre>
 
-The negated `\P{…}` form is not supported for sequence properties as it would be [a footgun](https://github.com/tc39/proposal-regexp-unicode-sequence-properties/issues/6#issuecomment-368460069). It’s not generally useful, and is better expressed as a negative lookahead. Compare the unsupported `/\P{UnicodeSequenceProperty}/u` (what should it do?) with `/(?!\p{UnicodeSequenceProperty})/u` (clear what it does).
+Where `PropertyName` can be one of the properties of strings listed above.
 
-Given that `UnicodeSequencePropertyName` expands to a list of sequences of Unicode code points, the proposal also includes a static restriction that bans such properties within character classes.
+The complement of such a property is not supported:
+Both `\P{PropertyName}` and `[^...\p{PropertyName}...]` will fail to compile (throw a `SyntaxError` exception)
+if `PropertyName` is a property of strings.
+
+We have thought of possible definitions of such a complement, but we believe that they are not generally useful.
+
+Some of the use cases for “not a property of strings” can be supported via a negative lookahead:
+`/(?!\p{RGI_Emoji_Flag_Sequence})\p{Symbol}/u`
+
+Note: Using a property of strings inside a character class is equivalent to an alternation of all of the strings and characters,
+such that the order of elements is irrelevant (e.g., listing the strings longest-first).
+(This could be optimized by retaining a character class of the single characters.)
 
 ### FAQ
 
@@ -62,50 +106,53 @@ Given that `UnicodeSequencePropertyName` expands to a list of sequences of Unico
 
 Unicode property escapes for unsupported Unicode properties throw an early `SyntaxError`. As such, we can add support for new properties in a backwards-compatible way, as long as we re-use the existing syntax.
 
-#### Why ban the use of these properties within character classes?
+#### Properties of strings within character classes
 
-Currently, each property escape expand to a list of code points. As such, their meaning is clear and unambiguous, even within a character class. For example, the following regular expression matches either a `Letter`, a `Number`, or an underscore:
+Currently, each property escape and character class expands to a set of code points, equivalent to an alternation of single characters.
+With this proposal, a property escape and character class expands to a set of strings, equivalent to an alternation of strings.
+In most cases, most or all of those strings will still be single-character strings.
 
-```js
-const re = /[\p{Letter}\p{Number}_]/u;
-```
-
-For the new properties introduced by this proposal, the expected behavior within character classes is unclear. A character class, when matched, always produces only a single character. Allowing sequence properties within character classes would change that, for no good reason.
-
-```js
-const re = /[\p{RGI_Emoji_ZWJ_Sequence}_a-z]/u;
-// 🤔 What should this do?
-
-// If the goal is to match either `\p{RGI_Emoji_ZWJ_Sequence}` or `_` or
-// `[a-z]`, one could still use `|`:
-const re = /\p{RGI_Emoji_ZWJ_Sequence}|[a-z_]/u;
-```
-
-To avoid confusion, the proposal throws a `SyntaxError` exception when sequence properties are used within character classes.
+For example:
+`[\p{Emoji_Keycap_Sequence}\p{Symbol}]` = `#⃣|*⃣|0⃣|1⃣|...|9⃣|[\$+<->\^...℻⅀-⅄⅊-⅍...]`
 
 #### Why re-use `\p{…}` and not introduce new syntax?
 
 Introducing new syntax comes at a cost for JavaScript developers. In this case, we assert that the cost of adding new syntax for this functionality outweighs the benefits.
 
-New syntax would have the benefit of making the distinction between binary and regular properties vs. sequence properties more clearly.
+New syntax *could* be used for properties of strings.
+However, such new syntax should also allow for properties of code points, so that,
+when a Unicode property no longer applies to multi-character strings in a later Unicode version,
+existing regular expressions remain valid.
 
-The mental model is: `\p{…}` refers to a Unicode property. This proposal doesn’t change that. It’s reasonable to assume that developers opting in to the use of sequence properties know what to expect.
+Therefore, developers would be expected to know which property does, or did at one point, apply to strings,
+but it would be easier for them to simply switch to the new syntax for all properties.
+
+Regular expressions can be validated by a parser using information about
+which property applies to strings vs. only single characters, without need for a new escape.
+
+The mental model is: `\p{…}` refers to a Unicode property.
+It matches the elements of the property’s domain for which its value is true.
+This proposal doesn’t change that.
+It’s reasonable to assume that developers opting in to the use of properties of strings know what to expect.
 
 ## Illustrative examples
 
 ### Matching emoji sequences
 
-With this proposal, [the set of RGI (“recommended for general interchange”) emoji](https://unicode.org/reports/tr51/#def_rgi_set) (characters _and_ sequences!) can be trivially represented as a RegExp pattern in JavaScript:
+With this proposal, [the set of RGI (“recommended for general interchange”) emoji](https://unicode.org/reports/tr51/#def_rgi_set)
+(characters _and_ sequences!) can be trivially represented as a RegExp pattern in JavaScript:
 
 ```js
 const reRgiEmoji = /\p{RGI_Emoji}/u;
 ```
 
-[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 KB in size. With property escapes, but without sequence property support, the size is still ~4.5 KB. The abovementioned regular expression with sequence properties takes up 16 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 kB in size.
+With property escapes, but without support for properties of strings, the size is still ~4.5 kB.
+The abovementioned regular expression with sequence properties takes up 16 bytes.
 
 ### Matching hashtags
 
-Unicode® Standard Annex #31 defines [hashtag identifiers](https://unicode.org/reports/tr31/#hashtag_identifiers) in two forms.
+Unicode® Standard Annex #31 defines [hashtag identifiers](https://www.unicode.org/reports/tr31/#hashtag_identifiers) in two forms.
 
 The _Default Hashtag Identifier Syntax (UAX31-D2)_ translates to the following JavaScript regular expression:
 
@@ -123,10 +170,12 @@ const reHashtag = /[#\uFE5F\uFF03][\p{XID_Continue}_\p{Emoji}]+/u;
 The above pattern matches *some* emoji, but not those consisting of sequences. It would also match emoji that render as text by default. With the proposed feature however, fully implementing the UAX31-R8 syntax becomes feasible:
 
 ```js
-const reHashtag = /[#\uFE5F\uFF03](?:[\p{XID_Continue}_]|\p{RGI_Emoji})+/u;
+const reHashtag = /[#\uFE5F\uFF03][\p{XID_Continue}_\p{RGI_Emoji}]+/u;
 ```
 
-[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 KB in size. With property escapes, but without sequence property support, the size is still ~3 KB. The abovementioned regular expression with sequence properties takes up 50 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 kB in size.
+With property escapes, but without support for properties of strings, the size is still ~3 kB.
+The abovementioned regular expression with sequence properties takes up 51 bytes.
 
 ## Related UTC proposals
 
