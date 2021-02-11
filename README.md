@@ -22,8 +22,8 @@ More formally, “character” refers to assigned code points, but properties ha
 ## Motivation
 
 The Unicode Standard assigns various properties and property values to every character/code point.
-For example, to get the set of characters that are used exclusively in the Greek script,
-search the Unicode database for characters whose `Script` property value is `Greek`.
+For example, the Unicode Character Database provides data for determining exactly
+the set of characters whose `Script` property value is `Greek`.
 
 [Unicode property escapes](https://github.com/tc39/proposal-regexp-unicode-property-escapes) enable JavaScript developers to access these Unicode character properties natively in ECMAScript regular expressions.
 
@@ -43,8 +43,10 @@ It only ever matches a single Unicode character/code point at a time.
 
 However, the Unicode Standard also defines several properties of strings.
 In regular expressions, such properties translate to a set of alternatives.
-To illustrate this, imagine a Unicode property that applies to the strings `'a'`, `'xy'`, and `'xyz'`.
-This property translates to the following regular expression pattern (using an alternation): `xyz|xy|a`.
+To illustrate this, imagine a Unicode property that applies to the strings
+`'a'`, `'b'`, `'c'`, `'W'`, `'xy'`, and `'xyz'`.
+This property translates to either of the following regular expression patterns (using alternation):
+`xyz|xy|a|b|c|W` or `xyz|xy|[a-cW]`.
 (Longest strings first, so that a prefix like `'xy'` does not hide a longer string like `'xyz'`.)
 Note how unlike existing Unicode property escapes, this pattern can match multi-character strings.
 
@@ -96,9 +98,11 @@ We have thought of possible definitions of such a complement, but we believe tha
 Some of the use cases for “not a property of strings” can be supported via a negative lookahead:
 `/(?!\p{RGI_Emoji_Flag_Sequence})\p{Symbol}/u`
 
-Note: Using a property of strings inside a character class is equivalent to an alternation of all of the strings and characters,
+Note: Using a property of strings inside a character class is equivalent to
+an alternation of all of the strings and characters,
 such that the order of elements is irrelevant (e.g., listing the strings longest-first).
-(This could be optimized by retaining a character class of the single characters.)
+(This could be optimized by retaining a character class of the single characters,
+as illustrated in the Motivation section above.)
 
 ### FAQ
 
