@@ -1,4 +1,4 @@
-# ECMAScript proposal: support sequence properties in Unicode property escapes
+# ECMAScript proposal: support properties of strings (a.k.a. “sequence properties”) in Unicode property escapes
 
 ## Status
 
