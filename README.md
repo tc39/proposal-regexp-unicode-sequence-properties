@@ -108,9 +108,7 @@ With this proposal, [the set of RGI (“recommended for general interchange”) 
 const reRgiEmoji = /\p{RGI_Emoji}/u;
 ```
 
-[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 kB in size.
-With property escapes, but without support for properties of strings, the size is still ~4.5 kB.
-The abovementioned regular expression with sequence properties takes up 16 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/emoji-regex) without the use of property escapes is ~7 kB in size. With property escapes, but without support for properties of strings, the size is still ~4.5 kB. The abovementioned regular expression with sequence properties takes up 16 bytes.
 
 ### Matching hashtags
 
