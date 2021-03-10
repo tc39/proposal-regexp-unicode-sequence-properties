@@ -122,10 +122,10 @@ Many applications (such as Twitter) use extended hashtags that allow for emoji c
 The above pattern matches emoji, but also *syntactically invalid emoji* as well as emoji that are *not recommended* for general interchange. With the proposed feature however, matching hashtags with only valid and recommended emoji becomes feasible:
 
 ```js
-const reHashtag = /[#﹟＃][\p{XID_Continue}\p{RGI_Emoji}[-+_]-[#﹟＃]]+/u;
+const reHashtag = /[#﹟＃][[\p{XID_Continue}\p{RGI_Emoji}[-+_]]--[#﹟＃]]+/u;
 ```
 
-[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 kB in size. With property escapes, but without support for properties of strings, the size is still ~3 kB. The abovementioned regular expression with sequence properties takes up 59 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 kB in size. With property escapes, but without support for properties of strings, the size is still ~3 kB. The abovementioned regular expression with sequence properties takes up 62 bytes.
 
 ## Related UTC proposals
 
