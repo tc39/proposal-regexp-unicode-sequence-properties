@@ -112,28 +112,20 @@ const reRgiEmoji = /\p{RGI_Emoji}/u;
 
 ### Matching hashtags
 
-Unicode® Standard Annex #31 defines [hashtag identifiers](https://www.unicode.org/reports/tr31/#hashtag_identifiers) in two forms.
+Many applications (such as Twitter) use extended hashtags that allow for emoji characters. Unicode® Standard Annex \#31 defines [_Extended Hashtag Identifier Syntax (UAX31-R8)_](https://www.unicode.org/reports/tr31/#R8) as matching:
 
-The _Default Hashtag Identifier Syntax (UAX31-D2)_ translates to the following JavaScript regular expression:
-
-```js
-const reHashtag = /[#\uFE5F\uFF03]\p{XID_Continue}+/u;
+```
+// From UAX #31, not in JavaScript syntax.
+/[#﹟＃][\p{XID_Continue}\p{Extended_Pictographic}\p{Emoji_Component}[-+_]-[#﹟＃]]+/
 ```
 
-However, the _Extended Hashtag Identifier Syntax (UAX31-R8)_ currently cannot trivially be expressed as a JavaScript regular expression, as it includes emoji. An approximation without emoji sequence support would be:
+The above pattern matches emoji, but also *syntactically invalid emoji* as well as emoji that are *not recommended* for general interchange. With the proposed feature however, matching hashtags with only valid and recommended emoji becomes feasible:
 
 ```js
-// This matches *some* emoji, but not those consisting of sequences.
-const reHashtag = /[#\uFE5F\uFF03][\p{XID_Continue}_\p{Emoji}]+/u;
+const reHashtag = /[#﹟＃][\p{XID_Continue}\p{RGI_Emoji}[-+_]-[#﹟＃]]+/u;
 ```
 
-The above pattern matches *some* emoji, but not those consisting of sequences. It would also match emoji that render as text by default. With the proposed feature however, fully implementing the UAX31-R8 syntax becomes feasible:
-
-```js
-const reHashtag = /[#\uFE5F\uFF03][\p{XID_Continue}_\p{RGI_Emoji}]+/u;
-```
-
-[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 kB in size. With property escapes, but without support for properties of strings, the size is still ~3 kB. The abovementioned regular expression with sequence properties takes up 51 bytes.
+[An equivalent regular expression](https://github.com/mathiasbynens/hashtag-regex) without the use of property escapes is ~12 kB in size. With property escapes, but without support for properties of strings, the size is still ~3 kB. The abovementioned regular expression with sequence properties takes up 59 bytes.
 
 ## Related UTC proposals
 
