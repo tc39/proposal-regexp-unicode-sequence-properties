@@ -4,6 +4,8 @@
 
 This proposal is at stage 2 of [the TC39 process](https://tc39.es/process-document/).
 
+Note that the [set notation proposal](https://github.com/tc39/proposal-regexp-set-notation) subsumes this proposal – and also adds string literals to character classes.
+
 ## Terminology
 
 This proposal initially used the term “sequence properties”, but that is a misnomer. A sequence of characters is a string, and a string property is one whose *values* (the codomain) are strings, just like a binary property is one whose values are binary true/false (that is, whether the property applies or does not apply).
