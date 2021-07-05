@@ -1,0 +1,249 @@
+<!doctype html>
+<head><meta charset="utf-8">
+<title>Support for properties of strings in Unicode property escapes in regular expressions</title><script type="application/json" id="menu-search-biblio">[{"type":"production","id":"prod-LeadSurrogate","name":"LeadSurrogate","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"LeadSurrogate"},{"type":"production","id":"prod-TrailSurrogate","name":"TrailSurrogate","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"TrailSurrogate"},{"type":"production","id":"prod-NonSurrogate","name":"NonSurrogate","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"NonSurrogate"},{"type":"production","id":"prod-IdentityEscape","name":"IdentityEscape","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"IdentityEscape"},{"type":"production","id":"prod-DecimalEscape","name":"DecimalEscape","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"DecimalEscape"},{"type":"production","id":"prod-CharacterClassEscape","name":"CharacterClassEscape","referencingIds":["_ref_41"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"CharacterClassEscape"},{"type":"production","id":"prod-UnicodePropertyValueExpression","name":"UnicodePropertyValueExpression","referencingIds":["_ref_7","_ref_9","_ref_53","_ref_54"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyValueExpression"},{"type":"production","id":"prod-UnicodePropertyValueOrSequenceExpression","name":"UnicodePropertyValueOrSequenceExpression","referencingIds":["_ref_8","_ref_51","_ref_52"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyValueOrSequenceExpression"},{"type":"production","id":"prod-UnicodePropertyName","name":"UnicodePropertyName","referencingIds":["_ref_10","_ref_13","_ref_42","_ref_44","_ref_46","_ref_48","_ref_55","_ref_57","_ref_59"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyName"},{"type":"production","id":"prod-UnicodePropertyNameCharacters","name":"UnicodePropertyNameCharacters","referencingIds":["_ref_16","_ref_18"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyNameCharacters"},{"type":"production","id":"prod-UnicodePropertyValue","name":"UnicodePropertyValue","referencingIds":["_ref_11","_ref_14","_ref_43","_ref_45","_ref_47","_ref_56","_ref_58","_ref_60"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyValue"},{"type":"production","id":"prod-LoneUnicodePropertyNameOrValue","name":"LoneUnicodePropertyNameOrValue","referencingIds":["_ref_12","_ref_15","_ref_49","_ref_50","_ref_61","_ref_62"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"LoneUnicodePropertyNameOrValue"},{"type":"production","id":"prod-UnicodePropertyValueCharacters","name":"UnicodePropertyValueCharacters","referencingIds":["_ref_19","_ref_20","_ref_22"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyValueCharacters"},{"type":"production","id":"prod-UnicodePropertyValueCharacter","name":"UnicodePropertyValueCharacter","referencingIds":["_ref_21"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyValueCharacter"},{"type":"production","id":"prod-UnicodePropertyNameCharacter","name":"UnicodePropertyNameCharacter","referencingIds":["_ref_17","_ref_23"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"UnicodePropertyNameCharacter"},{"type":"production","id":"prod-CharacterClass","name":"CharacterClass","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"CharacterClass"},{"type":"production","id":"prod-ClassRanges","name":"ClassRanges","referencingIds":["_ref_24","_ref_25","_ref_32","_ref_38"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"ClassRanges"},{"type":"production","id":"prod-NonemptyClassRanges","name":"NonemptyClassRanges","referencingIds":["_ref_26"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"NonemptyClassRanges"},{"type":"production","id":"prod-NonemptyClassRangesNoDash","name":"NonemptyClassRangesNoDash","referencingIds":["_ref_29","_ref_35"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"NonemptyClassRangesNoDash"},{"type":"production","id":"prod-ClassAtom","name":"ClassAtom","referencingIds":["_ref_27","_ref_28","_ref_30","_ref_31","_ref_33","_ref_37"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"ClassAtom"},{"type":"production","id":"prod-ClassAtomNoDash","name":"ClassAtomNoDash","referencingIds":["_ref_34","_ref_36","_ref_39"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"ClassAtomNoDash"},{"type":"production","id":"prod-ClassEscape","name":"ClassEscape","referencingIds":["_ref_40"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"ClassEscape"},{"type":"table","id":"table-unicode-sequence-properties","number":1,"caption":"Table 1: Unicode sequence property aliases and their canonical property names","referencingIds":["_ref_0","_ref_1","_ref_2"],"namespace":"https://github.com/tc39/proposal-regexp-set-notation","location":"","key":"Table 1: Unicode sequence property aliases and their canonical property names"}]</script></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"></ol></div></div><div id="spec-container"><h1 class="version first">Stage 2 Draft / July 5, 2021</h1><h1 class="title">Support for properties of strings in Unicode property escapes in regular expressions</h1>
+<script src="ecmarkup.js" defer=""></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<style>
+  ins.block {
+    font-weight: bold;
+    font-style: italic;
+  }
+  hr {
+    height: 0.25em;
+    background: #ccc;
+    border: 0;
+    margin: 2em 0;
+  }
+  .unicode-property-table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 80%;
+  }
+  .unicode-property-table ul {
+    padding-left: 0;
+    list-style: none;
+  }
+</style>
+
+<p><strong>Note: This proposal has been subsumed by <a href="https://github.com/tc39/proposal-regexp-set-notation">the RegExp set notation + properties of strings proposal</a>.</strong></p>
+
+<p><ins class="block">The syntax listed in <a href="https://tc39.github.io/ecma262/#sec-patterns">21.2.1 Patterns</a> is modified as follows.</ins></p>
+
+<emu-grammar type="definition"><emu-production name="LeadSurrogate" type="lexical" id="prod-LeadSurrogate">
+    <emu-nt><a href="#prod-LeadSurrogate">LeadSurrogate</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b4266993"><emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt><emu-gmod>but only if the SV of <emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt> is in the inclusive range 0xD800 to 0xDBFF</emu-gmod></emu-rhs>
+</emu-production>
+<emu-production name="TrailSurrogate" type="lexical" id="prod-TrailSurrogate">
+    <emu-nt><a href="#prod-TrailSurrogate">TrailSurrogate</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="134361fc"><emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt><emu-gmod>but only if the SV of <emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt> is in the inclusive range 0xDC00 to 0xDFFF</emu-gmod></emu-rhs>
+</emu-production>
+<emu-production name="NonSurrogate" type="lexical" id="prod-NonSurrogate">
+    <emu-nt><a href="#prod-NonSurrogate">NonSurrogate</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="de3cc0ae"><emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt><emu-gmod>but only if the SV of <emu-nt><a href="https://tc39.es/ecma262/#prod-Hex4Digits">Hex4Digits</a></emu-nt> is not in the inclusive range 0xD800 to 0xDFFF</emu-gmod></emu-rhs>
+</emu-production>
+<emu-production name="IdentityEscape" params="U" type="lexical" id="prod-IdentityEscape">
+    <emu-nt params="U"><a href="#prod-IdentityEscape">IdentityEscape</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="59e8579a" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-nt><a href="https://tc39.es/ecma262/#prod-SyntaxCharacter">SyntaxCharacter</a></emu-nt></emu-rhs>
+    <emu-rhs a="85b4a3dd" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>/</emu-t></emu-rhs>
+    <emu-rhs a="fbcd1409" constraints="~U"><emu-constraints>[~U]</emu-constraints><emu-nt><a href="https://tc39.es/ecma262/#prod-grammar-notation-SourceCharacter">SourceCharacter</a></emu-nt><emu-gmod>but not <emu-nt><a href="https://tc39.es/ecma262/#prod-UnicodeIDContinue">UnicodeIDContinue</a></emu-nt></emu-gmod></emu-rhs>
+</emu-production>
+<emu-production name="DecimalEscape" type="lexical" id="prod-DecimalEscape">
+    <emu-nt><a href="#prod-DecimalEscape">DecimalEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="627951dd"><emu-nt><a href="https://tc39.es/ecma262/#prod-grammar-notation-NonZeroDigit">NonZeroDigit</a></emu-nt><emu-nt optional=""><a href="https://tc39.es/ecma262/#prod-grammar-notation-DecimalDigits">DecimalDigits</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-gann>[lookahead ∉ <emu-nt><a href="https://tc39.es/ecma262/#prod-grammar-notation-DecimalDigit">DecimalDigit</a></emu-nt>]</emu-gann></emu-rhs>
+</emu-production>
+<emu-production name="CharacterClassEscape" params="U, InCharacterClass" type="lexical" id="prod-CharacterClassEscape">
+    <emu-nt params="U, InCharacterClass"><a href="#prod-CharacterClassEscape">CharacterClassEscape</a><emu-mods><emu-params>[U, InCharacterClass]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="f0f32729"><emu-t>d</emu-t></emu-rhs>
+    <emu-rhs a="919b1483"><emu-t>D</emu-t></emu-rhs>
+    <emu-rhs a="5b9c6c6e"><emu-t>s</emu-t></emu-rhs>
+    <emu-rhs a="6952cf48"><emu-t>S</emu-t></emu-rhs>
+    <emu-rhs a="2d8b484a"><emu-t>w</emu-t></emu-rhs>
+    <emu-rhs a="ae15e851"><emu-t>W</emu-t></emu-rhs>
+    <ins class="block"><emu-rhs a="f366d24b" constraints="+InCharacterClass, +U"><emu-constraints>[+InCharacterClass, +U]</emu-constraints><emu-t>p{</emu-t><emu-nt id="_ref_7"><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-rhs a="91bcc6cf" constraints="~InCharacterClass, +U"><emu-constraints>[~InCharacterClass, +U]</emu-constraints><emu-t>p{</emu-t><emu-nt id="_ref_8"><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-t>}</emu-t></emu-rhs></ins>
+    <emu-rhs a="9b2f96fc" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>P{</emu-t><emu-nt id="_ref_9"><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-t>}</emu-t></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyValueExpression" type="lexical" id="prod-UnicodePropertyValueExpression">
+    <emu-nt><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_10"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_11"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+    <emu-rhs a="25d94190"><emu-nt id="_ref_12"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt></emu-rhs>
+</emu-production>
+<ins class="block"><emu-production name="UnicodePropertyValueOrSequenceExpression" type="lexical" id="prod-UnicodePropertyValueOrSequenceExpression">
+    <emu-nt><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_13"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_14"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+    <emu-rhs a="25d94190"><emu-nt id="_ref_15"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt></emu-rhs>
+</emu-production></ins>
+<emu-production name="UnicodePropertyName" type="lexical" id="prod-UnicodePropertyName">
+    <emu-nt><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="c0c2619f"><emu-nt id="_ref_16"><a href="#prod-UnicodePropertyNameCharacters">UnicodePropertyNameCharacters</a></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyNameCharacters" type="lexical" id="prod-UnicodePropertyNameCharacters">
+    <emu-nt><a href="#prod-UnicodePropertyNameCharacters">UnicodePropertyNameCharacters</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="c1247f44"><emu-nt id="_ref_17"><a href="#prod-UnicodePropertyNameCharacter">UnicodePropertyNameCharacter</a></emu-nt><emu-nt optional="" id="_ref_18"><a href="#prod-UnicodePropertyNameCharacters">UnicodePropertyNameCharacters</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyValue" type="lexical" id="prod-UnicodePropertyValue">
+    <emu-nt><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="526a9170"><emu-nt id="_ref_19"><a href="#prod-UnicodePropertyValueCharacters">UnicodePropertyValueCharacters</a></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="LoneUnicodePropertyNameOrValue" type="lexical" id="prod-LoneUnicodePropertyNameOrValue">
+    <emu-nt><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="526a9170"><emu-nt id="_ref_20"><a href="#prod-UnicodePropertyValueCharacters">UnicodePropertyValueCharacters</a></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyValueCharacters" type="lexical" id="prod-UnicodePropertyValueCharacters">
+    <emu-nt><a href="#prod-UnicodePropertyValueCharacters">UnicodePropertyValueCharacters</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="5a208aa0"><emu-nt id="_ref_21"><a href="#prod-UnicodePropertyValueCharacter">UnicodePropertyValueCharacter</a></emu-nt><emu-nt optional="" id="_ref_22"><a href="#prod-UnicodePropertyValueCharacters">UnicodePropertyValueCharacters</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyValueCharacter" type="lexical" id="prod-UnicodePropertyValueCharacter">
+    <emu-nt><a href="#prod-UnicodePropertyValueCharacter">UnicodePropertyValueCharacter</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="531254cc"><emu-nt id="_ref_23"><a href="#prod-UnicodePropertyNameCharacter">UnicodePropertyNameCharacter</a></emu-nt></emu-rhs>
+    <emu-rhs a="5259a431"><emu-t>0</emu-t></emu-rhs>
+    <emu-rhs a="292aa5dd"><emu-t>1</emu-t></emu-rhs>
+    <emu-rhs a="5ca73105"><emu-t>2</emu-t></emu-rhs>
+    <emu-rhs a="ec6bb6b2"><emu-t>3</emu-t></emu-rhs>
+    <emu-rhs a="58ec4a73"><emu-t>4</emu-t></emu-rhs>
+    <emu-rhs a="8fcdef77"><emu-t>5</emu-t></emu-rhs>
+    <emu-rhs a="0b64877d"><emu-t>6</emu-t></emu-rhs>
+    <emu-rhs a="ea5e07a4"><emu-t>7</emu-t></emu-rhs>
+    <emu-rhs a="7a5bd8c3"><emu-t>8</emu-t></emu-rhs>
+    <emu-rhs a="163f4308"><emu-t>9</emu-t></emu-rhs>
+</emu-production>
+<emu-production name="UnicodePropertyNameCharacter" type="lexical" id="prod-UnicodePropertyNameCharacter">
+    <emu-nt><a href="#prod-UnicodePropertyNameCharacter">UnicodePropertyNameCharacter</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="69611eb2"><emu-nt><a href="https://tc39.es/ecma262/#prod-ControlLetter">ControlLetter</a></emu-nt></emu-rhs>
+    <emu-rhs a="07564b94"><emu-t>_</emu-t></emu-rhs>
+</emu-production>
+<emu-production name="CharacterClass" params="U" type="lexical" id="prod-CharacterClass">
+    <emu-nt params="U"><a href="#prod-CharacterClass">CharacterClass</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="4acdd45f"><emu-t>[</emu-t><emu-gann>[lookahead ∉ { <emu-t>^</emu-t> }]</emu-gann><emu-nt params="?U" id="_ref_24"><a href="#prod-ClassRanges">ClassRanges</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>]</emu-t></emu-rhs>
+    <emu-rhs a="93d354c0"><emu-t>[</emu-t><emu-t>^</emu-t><emu-nt params="?U" id="_ref_25"><a href="#prod-ClassRanges">ClassRanges</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>]</emu-t></emu-rhs>
+</emu-production>
+<emu-production name="ClassRanges" params="U" type="lexical" id="prod-ClassRanges">
+    <emu-nt params="U"><a href="#prod-ClassRanges">ClassRanges</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="37b9c04c"><emu-gann>[empty]</emu-gann></emu-rhs>
+    <emu-rhs a="43c27130"><emu-nt params="?U" id="_ref_26"><a href="#prod-NonemptyClassRanges">NonemptyClassRanges</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="NonemptyClassRanges" params="U" type="lexical" id="prod-NonemptyClassRanges">
+    <emu-nt params="U"><a href="#prod-NonemptyClassRanges">NonemptyClassRanges</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="cdf200f3"><emu-nt params="?U" id="_ref_27"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="4a76f2ec"><emu-nt params="?U" id="_ref_28"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-nt params="?U" id="_ref_29"><a href="#prod-NonemptyClassRangesNoDash">NonemptyClassRangesNoDash</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="63fd2e03"><emu-nt params="?U" id="_ref_30"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>-</emu-t><emu-nt params="?U" id="_ref_31"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-nt params="?U" id="_ref_32"><a href="#prod-ClassRanges">ClassRanges</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="NonemptyClassRangesNoDash" params="U" type="lexical" id="prod-NonemptyClassRangesNoDash">
+    <emu-nt params="U"><a href="#prod-NonemptyClassRangesNoDash">NonemptyClassRangesNoDash</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="cdf200f3"><emu-nt params="?U" id="_ref_33"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="2d1a8609"><emu-nt params="?U" id="_ref_34"><a href="#prod-ClassAtomNoDash">ClassAtomNoDash</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-nt params="?U" id="_ref_35"><a href="#prod-NonemptyClassRangesNoDash">NonemptyClassRangesNoDash</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="b61280d4"><emu-nt params="?U" id="_ref_36"><a href="#prod-ClassAtomNoDash">ClassAtomNoDash</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>-</emu-t><emu-nt params="?U" id="_ref_37"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-nt params="?U" id="_ref_38"><a href="#prod-ClassRanges">ClassRanges</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="ClassAtom" params="U" type="lexical" id="prod-ClassAtom">
+    <emu-nt params="U"><a href="#prod-ClassAtom">ClassAtom</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="6f24a587"><emu-t>-</emu-t></emu-rhs>
+    <emu-rhs a="714140ac"><emu-nt params="?U" id="_ref_39"><a href="#prod-ClassAtomNoDash">ClassAtomNoDash</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="ClassAtomNoDash" params="U" type="lexical" id="prod-ClassAtomNoDash">
+    <emu-nt params="U"><a href="#prod-ClassAtomNoDash">ClassAtomNoDash</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="ecde6e28"><emu-nt><a href="https://tc39.es/ecma262/#prod-grammar-notation-SourceCharacter">SourceCharacter</a></emu-nt><emu-gmod>but not one of <emu-t>\</emu-t> or <emu-t>]</emu-t> or <emu-t>-</emu-t></emu-gmod></emu-rhs>
+    <emu-rhs a="379e2483"><emu-t>\</emu-t><emu-nt params="?U" id="_ref_40"><a href="#prod-ClassEscape">ClassEscape</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="ClassEscape" params="U" type="lexical" id="prod-ClassEscape">
+    <emu-nt params="U"><a href="#prod-ClassEscape">ClassEscape</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="0185ce89"><emu-t>b</emu-t></emu-rhs>
+    <emu-rhs a="ae60fdeb" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>-</emu-t></emu-rhs>
+    <ins class="block"><emu-rhs a="c74da1b9"><emu-nt params="?U, InCharacterClass" id="_ref_41"><a href="#prod-CharacterClassEscape">CharacterClassEscape</a><emu-mods><emu-params>[?U, InCharacterClass]</emu-params></emu-mods></emu-nt></emu-rhs></ins>
+    <emu-rhs a="4b80816a"><emu-nt params="?U"><a href="https://tc39.es/ecma262/#prod-annexB-CharacterEscape">CharacterEscape</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production></emu-grammar>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">21.2.1.1 Static Semantics: Early Errors</a> is changed as follows:</ins></p>
+
+<emu-grammar><emu-production name="UnicodePropertyValueExpression" type="lexical" collapsed="">
+    <emu-nt><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_42"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_43"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar>
+<ins class="block"><emu-grammar><emu-production name="UnicodePropertyValueOrSequenceExpression" type="lexical" collapsed="">
+    <emu-nt><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_44"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_45"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar></ins>
+<ul>
+  <li>
+    It is a Syntax Error if the <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is SourceText of <emu-nt id="_ref_46"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt> is not identical to a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is a Unicode <emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">property name</a></emu-xref> or property alias listed in the “<emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases” column of <a href="https://tc39.github.io/ecma262/#table-nonbinary-unicode-properties">Table 51</a>.
+  </li>
+  <li>
+    It is a Syntax Error if the <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is SourceText of <emu-nt id="_ref_47"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt> is not identical to a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is a value or value alias for the Unicode property or property alias given by SourceText of <emu-nt id="_ref_48"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt> listed in the “Property value and aliases” column of the corresponding tables <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a> or <a href="https://tc39.github.io/ecma262/#table-unicode-script-values">Table 54</a>.
+  </li>
+</ul>
+
+<emu-grammar><emu-production name="UnicodePropertyValueOrSequenceExpression" type="lexical" collapsed="">
+    <emu-nt><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="25d94190"><emu-nt id="_ref_49"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar>
+<ul>
+  <li>
+    It is a Syntax Error if the <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is SourceText of <emu-nt id="_ref_50"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt> is not identical to a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is a Unicode general category or general category alias listed in the “Property value and aliases” column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, nor a binary property or binary property alias listed in the “<emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases” column of <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a><ins>, nor a sequence property or sequence property alias listed in the “<emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases” column of <emu-xref href="#table-unicode-sequence-properties" id="_ref_0"><a href="#table-unicode-sequence-properties">Table 1</a></emu-xref></ins>.
+  </li>
+</ul>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-unicodematchproperty-p">21.2.2.8.3 Runtime Semantics: UnicodeMatchProperty</a> is changed as follows:</ins></p>
+
+<p>Implementations must support the Unicode property names and aliases listed in <a href="https://tc39.github.io/ecma262/#table-nonbinary-unicode-properties">Table 51</a><del> and</del><ins>,</ins> <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a><ins>, and <emu-xref href="#table-unicode-sequence-properties" id="_ref_1"><a href="#table-unicode-sequence-properties">Table 1</a></emu-xref></ins>. To ensure interoperability, implementations must not support any other property names or aliases.</p>
+
+<emu-import href="table-unicode-sequence-properties.html"><emu-table id="table-unicode-sequence-properties"><figure><figcaption>Table 1: Unicode sequence property aliases and their canonical property names</figcaption>
+  
+  <table class="real-table unicode-property-table">
+    <thead>
+      <tr>
+        <th><emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases</th>
+        <th>Canonical <emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">property name</a></emu-xref></th>
+      </tr>
+    </thead>
+    <tbody><tr>
+      <td><code>Basic_Emoji</code></td>
+      <td><a href="https://unicode.org/reports/tr51/#def_basic_emoji_set"><code>Basic_Emoji</code></a></td>
+    </tr>
+    <tr>
+      <td><code>RGI_Emoji_Modifier_Sequence</code></td>
+      <td><a href="https://unicode.org/reports/tr51/#def_std_emoji_modifier_sequence_set"><code>RGI_Emoji_Modifier_Sequence</code></a></td>
+    </tr>
+    <tr>
+      <td><code>RGI_Emoji_Tag_Sequence</code></td>
+      <td><a href="https://unicode.org/reports/tr51/#def_std_emoji_tag_sequence_set"><code>RGI_Emoji_Tag_Sequence</code></a></td>
+    </tr>
+    <tr>
+      <td><code>RGI_Emoji_ZWJ_Sequence</code></td>
+      <td><a href="https://unicode.org/reports/tr51/#def_emoji_ZWJ_sequences"><code>RGI_Emoji_ZWJ_Sequence</code></a></td>
+    </tr>
+    <tr>
+      <td><code>RGI_Emoji</code></td>
+      <td><a href="https://unicode.org/reports/tr51/#def_rgi_set"><code>RGI_Emoji</code></a></td>
+    </tr>
+  </tbody></table>
+</figure></emu-table>
+</emu-import>
+
+<hr>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-notation">21.2.2.1 Notation</a> is changed as follows:</ins></p>
+
+<p>Furthermore, the descriptions below use the following internal data structures:</p>
+<ul>
+  <li>
+    A <em>CharSet</em> is a mathematical set of characters, either code units or code points depending up the state of the <var>Unicode</var> flag. “All characters” means either all code unit values or all code point values also depending upon the state of <var>Unicode</var>.
+  </li>
+  <li>
+    <ins>A <em>SequenceSet</em> is a mathematical set of sequences of code points.</ins>
+  </li>
+  <li>
+    A <em>State</em> is an ordered pair (<var>endIndex</var>, <var>captures</var>) where <var>endIndex</var> is an <emu-xref href="#integer"><a href="https://tc39.es/ecma262/#integer">integer</a></emu-xref> and <var>captures</var> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of <var>NcapturingParens</var> values. States are used to represent partial match states in the regular expression matching algorithms. The <var>endIndex</var> is one plus the index of the last input character matched so far by the pattern, while <var>captures</var> holds the results of capturing parentheses. The <var>n</var><sup>th</sup> element of <var>captures</var> is either a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> that represents the value obtained by the <var>n</var><sup>th</sup> set of capturing parentheses or <emu-val>undefined</emu-val> if the <var>n</var><sup>th</sup> set of capturing parentheses hasn't been reached yet. Due to backtracking, many States may be in use at any time during the matching process.
+  </li>
+  <li>
+    A <em>MatchResult</em> is either a State or the special token <emu-const>failure</emu-const> that indicates that the match failed.
+  </li>
+  <li>
+    A <em>Continuation</em> procedure is an internal closure (i.e. an internal procedure with some arguments already bound to values) that takes one State argument and returns a MatchResult result. If an internal closure references variables which are bound in the function that creates the closure, the closure uses the values that these variables had at the time the closure was created. The Continuation attempts to match the remaining portion (specified by the closure's already-bound arguments) of the pattern against <var>Input</var>, starting at the intermediate state given by its State argument. If the match succeeds, the Continuation returns the final State that it reached; if the match fails, the Continuation returns <emu-const>failure</emu-const>.
+  </li>
+  <li>
+    A <em>Matcher</em> procedure is an internal closure that takes two arguments — a State and a Continuation — and returns a MatchResult result. A Matcher attempts to match a middle subpattern (specified by the closure's already-bound arguments) of the pattern against <var>Input</var>, starting at the intermediate state given by its State argument. The Continuation argument should be a closure that matches the rest of the pattern. After matching the subpattern of a pattern to obtain a new State, the Matcher then calls Continuation on that new State to test if the rest of the pattern can match as well. If it can, the Matcher returns the State returned by Continuation; if not, the Matcher may try different choices at its choice points, repeatedly calling Continuation until it either succeeds or all possibilities have been exhausted.
+  </li>
+  <li>
+    An <em>AssertionTester</em> procedure is an internal closure that takes a State argument and returns a Boolean result. The assertion tester tests a specific condition (specified by the closure's already-bound arguments) against the current place in <var>Input</var> and returns <emu-val>true</emu-val> if the condition matched or <emu-val>false</emu-val> if not.
+  </li>
+</ul>
+
+<hr>
+
+<p><ins class="block"><a href="https://tc39.github.io/ecma262/#sec-characterclassescape">21.2.2.12 CharacterClassEscape</a> is changed as follows:</ins></p>
+
+<p><ins class="block">The production <emu-grammar><emu-production name="CharacterClassEscape" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-CharacterClassEscape">CharacterClassEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="16a0d994"><emu-t>p{</emu-t><emu-nt id="_ref_51"><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-t>}</emu-t></emu-rhs>
+</emu-production></emu-grammar> evaluates as follows:</ins></p>
+<emu-alg><ol><li><ins>Let <var>v</var> be the return value of <emu-nt id="_ref_52"><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt>.</ins></li><li><ins>If <var>v</var> is a CharSet, then</ins><ol><li><ins>Return the CharSet containing all Unicode code points included in <var>v</var>.</ins></li></ol></li><li><ins><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>v</var> is a SequenceSet.</ins></li><li><ins>Return the Disjunction containing an Alternative for each of the Unicode code point sequences in <var>v</var>.</ins><!-- TODO: Improve this. --></li></ol></emu-alg>
+
+<p>The production <emu-grammar><emu-production name="CharacterClassEscape" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-CharacterClassEscape">CharacterClassEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="e281bb28"><emu-t>P{</emu-t><emu-nt id="_ref_53"><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-t>}</emu-t></emu-rhs>
+</emu-production></emu-grammar> evaluates by returning the CharSet containing all Unicode code points not included in the CharSet returned by <emu-nt id="_ref_54"><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt>.</p>
+
+<p>The productions <emu-grammar><emu-production name="UnicodePropertyValueExpression" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-UnicodePropertyValueExpression">UnicodePropertyValueExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_55"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_56"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar> <ins>and <emu-grammar><emu-production name="UnicodePropertyValueOrSequenceExpression" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="b11de407"><emu-nt id="_ref_57"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt><emu-t>=</emu-t><emu-nt id="_ref_58"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar></ins> evaluate as follows:</p>
+<emu-alg><ol><li>Let <var>ps</var> be SourceText of <emu-nt id="_ref_59"><a href="#prod-UnicodePropertyName">UnicodePropertyName</a></emu-nt>.</li><li>Let <var>p</var> be !&nbsp;<emu-xref aoid="UnicodeMatchProperty" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-runtime-semantics-unicodematchproperty-p">UnicodeMatchProperty</a></emu-xref>(<var>ps</var>).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>p</var> is a Unicode <emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">property name</a></emu-xref> or property alias listed in the “<emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases” column of <emu-xref href="#table-nonbinary-unicode-properties"><a href="https://tc39.es/ecma262/#table-nonbinary-unicode-properties">Table 57</a></emu-xref>.</li><li>Let <var>vs</var> be SourceText of <emu-nt id="_ref_60"><a href="#prod-UnicodePropertyValue">UnicodePropertyValue</a></emu-nt>.</li><li>Let <var>v</var> be !&nbsp;<emu-xref aoid="UnicodeMatchPropertyValue" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-runtime-semantics-unicodematchpropertyvalue-p-v">UnicodeMatchPropertyValue</a></emu-xref>(<var>p</var>, <var>vs</var>).</li><li>Return the CharSet containing all Unicode code points whose character database definition includes the property <var>p</var> with value <var>v</var>.</li></ol></emu-alg>
+
+<p>The production <emu-grammar><emu-production name="UnicodePropertyValueOrSequenceExpression" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-UnicodePropertyValueOrSequenceExpression">UnicodePropertyValueOrSequenceExpression</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="25d94190"><emu-nt id="_ref_61"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt></emu-rhs>
+</emu-production></emu-grammar> evaluates as follows:</p>
+<emu-alg><ol><li>Let <var>s</var> be SourceText of <emu-nt id="_ref_62"><a href="#prod-LoneUnicodePropertyNameOrValue">LoneUnicodePropertyNameOrValue</a></emu-nt>.</li><li>If !&nbsp;<emu-xref aoid="UnicodeMatchPropertyValue" id="_ref_5"><a href="https://tc39.es/ecma262/#sec-runtime-semantics-unicodematchpropertyvalue-p-v">UnicodeMatchPropertyValue</a></emu-xref>(<code>"General_Category"</code>, <var>s</var>) is identical to a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is the name of a Unicode general category or general category alias listed in the “Property value and aliases” column of <a href="https://tc39.github.io/ecma262/#table-unicode-general-category-values">Table 53</a>, then<ol><li>Return the CharSet containing all Unicode code points whose character database definition includes the property “General_Category” with value <var>s</var>.</li></ol></li><li><ins>If <var>s</var> is identical to a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of Unicode code points that is the name of a Unicode sequence property or sequence property alias listed in the “Property value and aliases” column of <emu-xref href="#table-unicode-sequence-properties" id="_ref_2"><a href="#table-unicode-sequence-properties">Table 1</a></emu-xref>, then</ins><ol><li><ins>Return the SequenceSet containing each Unicode code point sequence included in the Unicode property <var>s</var>.</ins></li></ol></li><li>Let <var>p</var> be !&nbsp;<emu-xref aoid="UnicodeMatchProperty" id="_ref_6"><a href="https://tc39.es/ecma262/#sec-runtime-semantics-unicodematchproperty-p">UnicodeMatchProperty</a></emu-xref>(<var>s</var>).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>p</var> is a binary Unicode property or binary property alias listed in the “<emu-xref href="#property-name"><a href="https://tc39.es/ecma262/#property-name">Property name</a></emu-xref> and aliases” column of <a href="https://tc39.github.io/ecma262/#table-binary-unicode-properties">Table 52</a>.</li><li>Return the CharSet containing all Unicode code points whose character database definition includes the property <var>p</var> with value “True”.</li></ol></emu-alg>
+</div></body>
