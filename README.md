@@ -4,7 +4,7 @@
 
 This proposal is at stage 2 of [the TC39 process](https://tc39.es/process-document/).
 
-Note that the [set notation proposal](https://github.com/tc39/proposal-regexp-set-notation) subsumes this proposal – and also adds string literals to character classes.
+Note that the [RegExp `v` flag proposal](https://github.com/tc39/proposal-regexp-v-flag) subsumes this proposal – and also adds set notation & string literals to character classes.
 
 ## Terminology
 
